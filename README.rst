@@ -14,11 +14,11 @@ Quick start
           'webutils',
       )
 
-2. Configure in settings
+2. Configure in settings::
 
-    FEEDBACK_MAIL
-    MAIL_PASSWORD
-    MAIL_SERVER
-
-3.
+    FEEDBACK_MAIL = ['feedback@host', ...]
+    MAIL_PASSWORD = 'password'
+    MAIL_SERVER   = 'mail.server.com'
+    
+4. PROFIT
 
