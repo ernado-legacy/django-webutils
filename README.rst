@@ -19,6 +19,7 @@ Quick start
     FEEDBACK_MAIL = ['feedback@host', ...]
     MAIL_PASSWORD = 'password'
     MAIL_SERVER   = 'mail.server.com'
+    YANDEX_API_KEY = 'yandex api key'
     
 4. PROFIT
 

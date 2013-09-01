@@ -1,7 +1,9 @@
 import urllib
 from xml.etree.ElementTree import ElementTree
 
-from app.settings import YANDEX_API_KEY as key
+from django.conf import settings
+
+key = getattr(settings, 'YANDEX_API_KEY')
 api = 'http://cleanweb-api.yandex.ru/1.0/'
 xml = ElementTree()
 
