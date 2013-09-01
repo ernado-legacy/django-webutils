@@ -7,7 +7,7 @@ import shutil
 from django.db.models import ImageField
 from django.core.files.images import ImageFile
 from django.conf import settings
-import Image
+from PIL import Image
 
 
 def get_parameters(image_path):
