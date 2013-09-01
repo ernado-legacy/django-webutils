@@ -1,7 +1,8 @@
 import hashlib
 
+from django.utils.encoding import smart_str
+
 
 def hexHash(s):
-    if not isinstance(s, str):
-        s = s.encode('utf8')
-    return hashlib.md5(s).hexdigest()
+    encoded_str = smart_str(s)
+    return hashlib.md5(encoded_str).hexdigest()
