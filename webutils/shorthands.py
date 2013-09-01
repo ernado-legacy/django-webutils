@@ -9,9 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.core.mail import send_mail
 
-FEEDBACK_MAIL = settings.FEEDBACK_MAIL
-MAIL_PASSWORD = settings.MAIL_PASSWORD
-MAIL_SERVER = settings.MAIL_SERVER
+mail = getattr(settings, 'FEEDBACK_MAIL')
+password = getattr(settings, 'MAIL_PASSWORD')
+server = getattr(settings, 'MAIL_SERVER')
 
 
 class SendMailException(Exception):
@@ -84,8 +84,8 @@ def send(subject, text, from_mail):
     Sends email to FEEDBACK_MAIL e-mail address.
     """
     try:
-        send_mail(subject, text, from_mail, FEEDBACK_MAIL, auth_user=MAIL_SERVER,
-                  auth_password=MAIL_PASSWORD, fail_silently=False)
+        send_mail(subject, text, from_mail, mail, auth_user=server,
+                  auth_password=password, fail_silently=False)
     except (SMTPException, socket.error) as e:
         raise SendMailException(e)
 
