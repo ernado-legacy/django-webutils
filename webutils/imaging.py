@@ -8,6 +8,7 @@ from django.conf import settings
 from PIL import Image
 
 from hashing import hexHash
+from encode import baseEncode
 
 max_image_size = getattr(settings, 'MAX_IMAGE_SIZE', 1200)
 
@@ -32,6 +33,13 @@ def get_parameters(image_path):
     }
 
 
+def short_hash(s):
+    hex_hash = hexHash(s)
+    int_hash = int(hex_hash, 16)
+    base64_hash = str(baseEncode(int_hash, 64))
+    return '{0:0>22}'.format(base64_hash)
+
+
 def fix_image_path(image_path):
     """
     Fixes the image path, transforming it to {md5hash}.{extension}
@@ -52,11 +60,11 @@ def fix_image_path(image_path):
     except UnicodeDecodeError:
         wrong_name = True
 
-    if len(image['name']) != 32:  # check image name length
+    if len(image['name']) != 22:  # check image name length
         wrong_name = True
 
     if wrong_name:
-        image['name'] = hexHash(image['name'])
+        image['name'] = short_hash(image['name'])
 
     return os.path.join(image['directory'], ''.join([image['name'], '.', image['extension']]))
 
