@@ -14,12 +14,26 @@ from watermarker.utils import watermark
 path = lambda *args: os.path.join(os.path.abspath(os.path.dirname(__file__)), *args)
 
 
+def errorOccurred(err, f, *args):
+    try:
+        f(*args)
+        return False
+    except err:
+        return True
+
+
 class EncodeTest(TestCase):
     def testSimpleEncoding(self):
         self.assertEqual(encode.baseEncode(100, 10), '100')
+        self.assertEqual(encode.baseEncode('199', 10), '199')
+        self.assertEqual(encode.baseEncode('', 10), '0')
+        self.assertEqual(encode.baseEncode('1'), '1')
 
-    def testIncorrectBase(self):
-        pass
+    def testExceptions(self):
+        self.assertTrue(errorOccurred(TypeError, encode.baseEncode, None, 10))
+        self.assertTrue(errorOccurred(ValueError, encode.baseEncode, -1, -1))
+        self.assertTrue(errorOccurred(ValueError, encode.baseEncode, 0, -1))
+        self.assertTrue(errorOccurred(ValueError, encode.baseEncode, 115, 2000))
 
 
 class ImagePathFixTest(TestCase):

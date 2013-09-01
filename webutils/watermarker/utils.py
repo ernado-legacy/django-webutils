@@ -227,32 +227,3 @@ def watermark(img, mark, position=(0, 0), opacity=1, scale=1.0, tile=False, grey
 
     # composite the watermark with the layer
     return Image.composite(layer, img, layer)
-
-
-def test():
-    im = Image.open('test.png')
-    mark = Image.open('overlay.png')
-    watermark(im, mark,
-                tile=True,
-                opacity=0.5,
-                rotation=30).save('test1.png')
-
-    watermark(im, mark,
-                scale='F').save('test2.png')
-
-    watermark(im, mark,
-                position=(100, 100),
-                opacity=0.5,
-                greyscale=True,
-                rotation=-45).save('test3.png')
-
-    watermark(im, mark,
-                position='C',
-                tile=False,
-                opacity=0.2,
-                scale=2,
-                rotation=30).save('test4.png')
-    print 'Test completed'
-
-if __name__ == '__main__':
-    test()

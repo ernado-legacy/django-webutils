@@ -136,5 +136,3 @@ class ImageFieldHash(ImageField):
         if 'upload_to' in kwargs:
             kwargs['upload_to'] = upload_to(kwargs['upload_to'])
         super(ImageFieldHash, self).__init__(**kwargs)
-
-
