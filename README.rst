@@ -19,7 +19,6 @@ Quick start
     FEEDBACK_MAIL = ['feedback@host', ...]
     MAIL_PASSWORD = 'password'
     MAIL_SERVER   = 'mail.server.com'
-
-3. ??????
+    
 4. PROFIT
 
