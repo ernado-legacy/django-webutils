@@ -10,8 +10,8 @@ def baseEncode(number, base=0):
         raise TypeError('number must be an integer')
     if number < 0:
         raise ValueError('number must be positive')
-    if base < 2:
-        raise ValueError('base must be > 2 (%s !> 2)' % base)
+    if base < 0:
+        raise ValueError('base must be > 0 (%s !> 0)' % base)
 
     alphabet = string.digits + string.ascii_letters + '_'
 
