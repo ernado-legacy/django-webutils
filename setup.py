@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-webutils',
-    version='0.3.6',
+    version='0.3.7',
     packages=['webutils', 'webutils.captcha', 'webutils.watermarker'],
     include_package_data=True,
     license='BSD License',  # example license
