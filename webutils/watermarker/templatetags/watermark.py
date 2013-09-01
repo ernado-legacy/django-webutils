@@ -9,8 +9,8 @@ import sys
 
 from django.conf import settings
 from django import template
-from webutils.watermarks import utils
-from webutils.watermarks.models import Watermark
+from webutils.watermarker import utils
+from webutils.watermarker.models import Watermark
 from django.utils.encoding import smart_str
 
 register = template.Library()
@@ -20,7 +20,7 @@ QUALITY = getattr(settings, 'WATERMARKING_QUALITY', 85)
 OBSCURE = getattr(settings, 'WATERMARK_OBSCURE_ORIGINAL', True)
 RANDOM_POS_ONCE = getattr(settings, 'WATERMARK_RANDOM_POSITION_ONCE', True)
 
-log = logging.getLogger('watermarks')
+log = logging.getLogger('watermarker')
 
 
 class Watermarker(object):
