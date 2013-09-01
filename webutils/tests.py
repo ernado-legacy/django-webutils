@@ -5,7 +5,7 @@ import shutil
 import os
 
 from django.test import TestCase
-import Image
+from PIL import Image
 
 import imaging
 import encode
