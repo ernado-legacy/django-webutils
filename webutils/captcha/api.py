@@ -4,14 +4,16 @@ from xml.etree.ElementTree import ElementTree
 from django.conf import settings
 
 key = getattr(settings, 'YANDEX_API_KEY')
-api = 'http://cleanweb-api.yandex.ru/1.0/'
+api_url = 'http://cleanweb-api.yandex.ru/1.0/'
 xml = ElementTree()
 
 
 def check_spam(text):
     text = unicode(text).encode('utf-8')
     data = urllib.urlencode({'body-plain': text, 'key': key})
-    f = urllib.urlopen(api + 'check-spam', data)
+    print data
+    f = urllib.urlopen(api_url + 'check-spam', data)
+    print f
     xml.parse(f)
     return {'result': xml.find('text').get('spam-flag') == 'yes', 'id': xml.find('id').text}
 
@@ -20,7 +22,7 @@ def get_captcha(r_data=None):
     if not r_data:
         r_data = {'id': None}
     data = urllib.urlencode({'id': r_data['id'], 'key': key})
-    f = urllib.urlopen(api + 'get-captcha', data)
+    f = urllib.urlopen(api_url + 'get-captcha', data)
     parsed_data = xml.parse(f)
     url = parsed_data.find('url').text
     captcha = parsed_data.find('captcha').text
@@ -30,7 +32,7 @@ def get_captcha(r_data=None):
 def check_captcha(r_data):
     r_data.update({'key': key})
     data = urllib.urlencode(r_data)
-    f = urllib.urlopen(api + 'check-captcha', data)
+    f = urllib.urlopen(api_url + 'check-captcha', data)
     return xml.parse(f).find('ok') is not None
 
 
