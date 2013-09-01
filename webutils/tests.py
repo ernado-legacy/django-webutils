@@ -9,6 +9,7 @@ from PIL import Image
 
 import imaging
 import encode
+from watermarker.utils import watermark
 
 path = lambda *args: os.path.join(os.path.abspath(os.path.dirname(__file__)), *args)
 
@@ -66,4 +67,29 @@ class ImageSizeFixTest(TestCase):
         for image_path in self.new_images:
             os.remove(image_path)
 
+
+class WatermarkerTest(TestCase):
+    def test_watermarker(self):
+        im = Image.open(path('watermarker/test.png'))
+        mark = Image.open(path('watermarker/overlay.png'))
+        watermark(im, mark,
+                  tile=True,
+                  opacity=0.5,
+                  rotation=30).save(path('images/test1.png'))
+
+        watermark(im, mark,
+                  scale='F').save(path('images/test2.png'))
+
+        watermark(im, mark,
+                  position=(100, 100),
+                  opacity=0.5,
+                  greyscale=True,
+                  rotation=-45).save(path('images/test3.png'))
+
+        watermark(im, mark,
+                  position='C',
+                  tile=False,
+                  opacity=0.2,
+                  scale=2,
+                  rotation=30).save(path('images/test4.png'))
 
