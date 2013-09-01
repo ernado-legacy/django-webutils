@@ -1,13 +1,15 @@
 # coding=utf-8
 import os
-import hashlib
 import shutil
-
 
 from django.db.models import ImageField
 from django.core.files.images import ImageFile
 from django.conf import settings
 from PIL import Image
+
+from hashing import hexHash
+
+max_image_size = getattr(settings, 'MAX_IMAGE_SIZE', 1200)
 
 
 def get_parameters(image_path):
@@ -16,6 +18,7 @@ def get_parameters(image_path):
     :param str image_path: image path
     :rtype dict
     """
+    image_path = image_path
     image_directory = os.path.dirname(image_path)
     image_filename = os.path.basename(image_path)
     image_name = image_filename.split('.')[0]
@@ -43,7 +46,7 @@ def fix_image_path(image_path):
 
     wrong_name = False
     try:                          # check ascii characters in filename
-        image['name'].decode('ascii')
+        image['name'].encode('ascii')
     except UnicodeEncodeError:
         wrong_name = True
     except UnicodeDecodeError:
@@ -53,7 +56,7 @@ def fix_image_path(image_path):
         wrong_name = True
 
     if wrong_name:
-        image['name'] = hashlib.md5(image['name'].encode("utf-8")).hexdigest()
+        image['name'] = hexHash(image['name'])
 
     return os.path.join(image['directory'], ''.join([image['name'], '.', image['extension']]))
 
@@ -111,7 +114,7 @@ def save(image_field):
     if not os.path.isfile(image_path):
         raise IOError('Failed to create %s' % image_path)
     try:
-        normalize_image_size(image_path, settings.MAX_IMAGE_SIZE)
+        normalize_image_size(image_path, max_image_size)
     except IOError:
         raise IOError('Failed to process %s' % image_path)
 

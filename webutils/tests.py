@@ -27,6 +27,10 @@ class ImagePathFixTest(TestCase):
 
         filename, name, extension = example('тестирование', 'JPEG')
         self.assertEqual(example(md5(name).hexdigest(), 'jpg')[0], imaging.fix_image_path(filename))
+
+        filename, name, extension = example(u'тестирование', 'JPEG')
+        self.assertEqual(example(md5(name.encode('utf8')).hexdigest(), 'jpg')[0], imaging.fix_image_path(filename))
+
         filename = '098f6bcd4621d373cade4e832627b4f6.jpg'
         self.assertEqual(filename, imaging.fix_image_path(filename))
 

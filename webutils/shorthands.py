@@ -9,9 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.core.mail import send_mail
 
-mail = getattr(settings, 'FEEDBACK_MAIL')
-password = getattr(settings, 'MAIL_PASSWORD')
-server = getattr(settings, 'MAIL_SERVER')
+mail = getattr(settings, 'FEEDBACK_MAIL', None)
+password = getattr(settings, 'MAIL_PASSWORD', None)
+server = getattr(settings, 'MAIL_SERVER', None)
 
 
 class SendMailException(Exception):
