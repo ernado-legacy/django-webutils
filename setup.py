@@ -8,8 +8,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-webutils',
-    version='0.3.1',
-    packages=['webutils', 'webutils.captcha'],
+    version='0.3.2',
+    packages=['webutils', 'webutils.captcha', 'webutils.watermarks'],
     include_package_data=True,
     license='BSD License',  # example license
     description='Combined common toolkit/api for cygame projects.',
