@@ -36,8 +36,8 @@ def get_parameters(image_path):
 def short_hash(s):
     hex_hash = hexHash(s)
     int_hash = int(hex_hash, 16)
-    base64_hash = str(baseEncode(int_hash, 64))
-    return '{0:0>22}'.format(base64_hash)
+    base_hash = str(baseEncode(int_hash))
+    return '{0:0>22}'.format(base_hash)
 
 
 def fix_image_path(image_path):

@@ -41,16 +41,16 @@ class ImagePathFixTest(TestCase):
         example = lambda *args: (''.join((args[0], '.', args[1])), args[0], args[1])
 
         filename, name, extension = example('тестирование', 'JPEG')
-        self.assertEqual(example(md5(name).hexdigest(), 'jpg')[0], imaging.fix_image_path(filename))
+        self.assertEqual('4v3UUOQtyAy52YPAc5UXOv.jpg', imaging.fix_image_path(filename))
 
         filename, name, extension = example(u'тестирование', 'JPEG')
-        self.assertEqual(example(md5(name.encode('utf8')).hexdigest(), 'jpg')[0], imaging.fix_image_path(filename))
+        self.assertEqual('4v3UUOQtyAy52YPAc5UXOv.jpg', imaging.fix_image_path(filename))
 
-        filename = '098f6bcd4621d373cade4e832627b4f6.jpg'
+        filename = '4v3UUOQtyAy52YPAc5UXOv.jpg'
         self.assertEqual(filename, imaging.fix_image_path(filename))
 
         filename, name, extension = example('098f6bcd46татататататаатататb4f6', 'GIF')
-        self.assertEqual(example(md5(name).hexdigest(), 'gif')[0], imaging.fix_image_path(filename))
+        self.assertEqual('2h5zOQ8T5IYV0ftM3mD7Xu.gif', imaging.fix_image_path(filename))
 
 
 class ImageSizeFixTest(TestCase):
