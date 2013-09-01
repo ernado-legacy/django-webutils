@@ -11,6 +11,8 @@ Quick start
 
       INSTALLED_APPS = (
           ...
+          'webutils.captcha',
+          'webutils.watermarks',
           'webutils',
       )
 
