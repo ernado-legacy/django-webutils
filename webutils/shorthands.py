@@ -53,6 +53,7 @@ def get_page(request, Model, count=10, query=None, prefix=None):
         page = paginator.page(paginator.num_pages)
     if prefix:
         key = 'page_%s%s' % (prefix, page.number)
+        # TODO: Implement caching
     return page
 
 
