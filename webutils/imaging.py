@@ -43,7 +43,7 @@ def fix_image_path(image_path):
 
     # early extension fix
     image['extension'] = image['extension'].lower().replace('jpeg', 'jpg')
-
+    # test
     wrong_name = False
     try:                          # check ascii characters in filename
         image['name'].encode('ascii')
