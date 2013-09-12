@@ -8,6 +8,7 @@ from django.conf import settings
 from PIL import Image
 
 from hashing import hexHash
+import time
 
 max_image_size = getattr(settings, 'MAX_IMAGE_SIZE', 1200)
 
@@ -47,16 +48,14 @@ def fix_image_path(image_path):
     wrong_name = False
     try:                          # check ascii characters in filename
         image['name'].encode('ascii')
-    except UnicodeEncodeError:
-        wrong_name = True
-    except UnicodeDecodeError:
+    except UnicodeError:
         wrong_name = True
 
     if len(image['name']) != 32:  # check image name length
         wrong_name = True
 
     if wrong_name:
-        image['name'] = hexHash(image['name'])
+        image['name'] = hexHash(image['name'] + str(time.time()))
 
     return os.path.join(image['directory'], ''.join([image['name'], '.', image['extension']]))
 
@@ -95,7 +94,7 @@ def save(image_field):
 
     try:
         image_exists = os.path.isfile(image_path)
-    except (UnicodeEncodeError, UnicodeDecodeError):
+    except UnicodeError:
         raise IOError('Incorrect locale settings')
 
     if not image_exists:
