@@ -1,6 +1,7 @@
 # coding=utf-8
 import os
 import shutil
+import time
 
 from django.db.models import ImageField
 from django.core.files.images import ImageFile
@@ -8,7 +9,6 @@ from django.conf import settings
 from PIL import Image
 
 from hashing import hexHash
-import time
 
 max_image_size = getattr(settings, 'MAX_IMAGE_SIZE', 1200)
 
