@@ -2,6 +2,8 @@
 import os
 import shutil
 import time
+import logging
+from random import randint
 
 from django.db.models import ImageField
 from django.core.files.images import ImageFile
@@ -10,6 +12,7 @@ from PIL import Image
 
 from hashing import hexHash
 
+logger = logging.getLogger(__name__)
 max_image_size = getattr(settings, 'MAX_IMAGE_SIZE', 1200)
 
 
@@ -40,22 +43,23 @@ def fix_image_path(image_path):
     :param str image_path: image path
     :rtype str
     """
+    hash_size = 22
     image = get_parameters(image_path)
-
-    # early extension fix
     image['extension'] = image['extension'].lower().replace('jpeg', 'jpg')
-    # test
     wrong_name = False
+
     try:                          # check ascii characters in filename
         image['name'].encode('ascii')
     except UnicodeError:
         wrong_name = True
 
-    if len(image['name']) != 32:  # check image name length
+    if len(image['name']) != hash_size:  # check image name length
         wrong_name = True
 
     if wrong_name:
-        image['name'] = hexHash(image['name'] + str(time.time()))
+        pattern = '{0:0<%s}' % hash_size
+        hash_value = hexHash(image['name'] + str(time.time()) + hex(randint(0, 1000)))
+        image['name'] = pattern.format(hash_value)
 
     return os.path.join(image['directory'], ''.join([image['name'], '.', image['extension']]))
 
@@ -85,7 +89,7 @@ def normalize_image_size(image_path, max_size):
             try:
                 os.remove(new_path)
             except IOError:
-                pass
+                logger.error('Image %s was failed to remove' % image_path)
             raise
 
 
@@ -95,9 +99,11 @@ def save(image_field):
     try:
         image_exists = os.path.isfile(image_path)
     except UnicodeError:
+        logger.error('Unable to read filename: %s, probably incorrect locale settings.' % image_path)
         raise IOError('Incorrect locale settings')
 
     if not image_exists:
+        logger.error('Image %s does not exist' % image_path)
         return
 
     image_path = image_field.path
@@ -107,15 +113,15 @@ def save(image_field):
         try:
             image_field.save(os.path.basename(image_path), image_content, save=True)
         except IOError:
-            pass    # TODO: process error
+            pass    # TODO: process error/Log
         image_path = new_image_path
 
     if not os.path.isfile(image_path):
         raise IOError('Failed to create %s' % image_path)
     try:
         normalize_image_size(image_path, max_image_size)
-    except IOError:
-        raise IOError('Failed to process %s' % image_path)
+    except IOError as e:
+        raise IOError('Failed to process %s: %s' % (image_path, e))
 
 
 def upload_to(path):

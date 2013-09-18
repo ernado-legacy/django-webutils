@@ -13,7 +13,7 @@ def baseEncode(number, base=0):
     if base < 0:
         raise ValueError('base must be > 0 (%s !> 0)' % base)
 
-    alphabet = string.digits + string.ascii_letters + '_'
+    alphabet = string.digits + string.ascii_letters
 
     if base > len(alphabet):
         raise ValueError('base is too big (%s>%s)' % (base, len(alphabet)))
