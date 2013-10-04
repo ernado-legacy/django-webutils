@@ -31,7 +31,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires = [
-        'PIL>=1.1.7',
+        'Pillow>=2.2.1',
         'Django>=1.4'
     ],
 )

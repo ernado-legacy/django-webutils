@@ -112,8 +112,8 @@ def save(image_field):
         image_content = ImageFile(open(image_path))
         try:
             image_field.save(os.path.basename(image_path), image_content, save=True)
-        except IOError:
-            pass    # TODO: process error/Log
+        except IOError as e:
+            logger.error('Failed to save image %s: %s' % (image_path, e))
         image_path = new_image_path
 
     if not os.path.isfile(image_path):

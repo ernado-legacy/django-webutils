@@ -7,6 +7,8 @@ Combined common toolkit for all our projects.
 Quick start
 -----------
 
+pip install git+git://github.com/Ernado/django-webutils.git#egg=django-webutils
+
 1. Add "webutils" to your INSTALLED_APPS setting like this::
 
       INSTALLED_APPS = (
